@@ -54,13 +54,14 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
   } catch (error) {
     console.log('Error occurred:', error);
   }
+  const footer = document.querySelector('footer');
+const currentYear = new Date().getFullYear();
+footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`;
+
 }
 
 sprintChallenge5();
 
-const footer = document.querySelector('footer');
-const currentYear = new Date().getFullYear();
-footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`;
 
   // 👆 WORK WORK ABOVE THIS LINE 👆
 
