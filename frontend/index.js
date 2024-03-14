@@ -10,32 +10,30 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
     const mentors = mentorsResponse.data;
 
     learners.forEach(learner => {
-      // Create the card, name, email, and mentors list elements
+      // Create the card element
       const card = document.createElement('div');
       card.classList.add('card');
-
+    
+      // Create the name element and append it to the card
       const name = document.createElement('h3');
-      name.textContent = learner.name;
+      name.textContent = learner.fullName;
       card.appendChild(name);
-
+    
+      // Create the email element and append it to the card
       const email = document.createElement('div');
       email.textContent = learner.email;
       card.appendChild(email);
-
+    
+      // Create the mentors list and append it to the card
       const mentorsList = document.createElement('ul');
-      mentorsList.style.display = 'none';
-
-      // Create a list item for each mentor and append it to the mentors list
-      learner.mentors.forEach(mentorId => {
-        const mentor = mentors.find(m => m.id === mentorId);
-        if (mentor) {
-          const mentorItem = document.createElement('li');
-          mentorItem.textContent = mentor.name;
-          mentorsList.appendChild(mentorItem);
-        }
+      mentorsList.style.display = 'none';  // The list should be hidden initially
+      learner.mentors.forEach(mentorName => {
+        const mentorItem = document.createElement('li');
+        mentorItem.textContent = mentorName;
+        mentorsList.appendChild(mentorItem);
       });
       card.appendChild(mentorsList);
-
+    
       // Append the card to the .cards container
       document.querySelector('.cards').appendChild(card);
     });
