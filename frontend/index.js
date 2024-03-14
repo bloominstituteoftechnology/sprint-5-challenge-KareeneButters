@@ -1,5 +1,6 @@
 async function sprintChallenge5() { // Note the async keyword, in case you wish to use `await` inside sprintChallenge5
   // 👇 WORK WORK BELOW THIS LINE 👇
+ 
   try {
     const [learnersResponse, mentorsResponse] = await axios.all([
       axios.get('http://localhost:3003/api/learners'),
@@ -13,27 +14,53 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
       // Create the card element
       const card = document.createElement('div');
       card.classList.add('card');
-    
+
       // Create the name element and append it to the card
       const name = document.createElement('h3');
       name.textContent = learner.fullName;
       card.appendChild(name);
-    
+
       // Create the email element and append it to the card
       const email = document.createElement('div');
       email.textContent = learner.email;
       card.appendChild(email);
-    
-      // Create the mentors list and append it to the card
+
+      const mentorsDropdown = document.createElement('div');
+      mentorsDropdown.classList.add('dropdown');
+      
+      const arrow = document.createElement('h4');
+      arrow.classList.add('closed'); // The arrow is 'closed' initially
+      arrow.textContent = 'Mentors';
+      mentorsDropdown.appendChild(arrow);
+      
       const mentorsList = document.createElement('ul');
-      mentorsList.style.display = 'none';  // The list should be hidden initially
-      learner.mentors.forEach(mentorName => {
-        const mentorItem = document.createElement('li');
-        mentorItem.textContent = mentorName;
-        mentorsList.appendChild(mentorItem);
+      mentorsList.style.display = 'none'; // The list should be hidden initially
+      learner.mentors.forEach(mentorId => {
+        // Find the mentor with the matching ID
+        const mentor = mentors.find(m => m.id === mentorId);
+        if (mentor) {
+          // Create a list item for the mentor and append it to the mentors list
+          const mentorItem = document.createElement('li');
+          mentorItem.textContent = mentor.name;
+          mentorsList.appendChild(mentorItem);
+        }
       });
-      card.appendChild(mentorsList);
-    
+      mentorsDropdown.appendChild(mentorsList);
+      
+      card.appendChild(mentorsDropdown);
+      
+      // Add an event listener to the arrow
+      arrow.addEventListener('click', () => {
+        if (mentorsList.style.display === 'none') {
+          mentorsList.style.display = 'block'; // Show the list
+          arrow.classList.remove('closed');
+          arrow.classList.add('open');
+        } else {
+          mentorsList.style.display = 'none'; // Hide the list
+          arrow.classList.remove('open');
+          arrow.classList.add('closed');
+        }
+      });
       // Append the card to the .cards container
       document.querySelector('.cards').appendChild(card);
     });
@@ -51,16 +78,16 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
         info.textContent = `The selected learner is ${card.querySelector('h3').textContent}`;
       }
     });
+
+    const footer = document.querySelector('footer');
+    const currentYear = new Date().getFullYear();
+    footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`;
   } catch (error) {
     console.log('Error occurred:', error);
   }
-  const footer = document.querySelector('footer');
-const currentYear = new Date().getFullYear();
-footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`;
-
 }
 
-sprintChallenge5();
+document.addEventListener('DOMContentLoaded', sprintChallenge5);
 
 
   // 👆 WORK WORK ABOVE THIS LINE 👆
